@@ -61,46 +61,46 @@ public class TanarGUI {
                 try {
                     switch (comboBoxKeres.getSelectedIndex()) {
                         case 0:
-                            list = courseController.searchList(courseList, Course::getFelev, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getFelev, textFieldKeres.getText());
                             break;
                         case 1:
-                            list = courseController.searchList(courseList, Course::getKar, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getKar, textFieldKeres.getText());
                             break;
                         case 2:
-                            list = courseController.searchList(courseList, Course::getSzki, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getSzki, textFieldKeres.getText());
                             break;
                         case 3:
-                            list = courseController.searchList(courseList, Course::getTi, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getTi, textFieldKeres.getText());
                             break;
                         case 4:
-                            list = courseController.searchList(courseList, Course::getTantargy, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getTantargy, textFieldKeres.getText());
                             break;
                         case 5:
-                            list = courseController.searchList(courseList, Course::getTanszek, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getTanszek, textFieldKeres.getText());
                             break;
                         case 6:
-                            list = courseController.searchList(courseList, Course::getEloado, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getEloado, textFieldKeres.getText());
                             break;
                         case 7:
-                            list = courseController.searchList(courseList, Course::getCsoport, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getCsoport, textFieldKeres.getText());
                             break;
                         case 8:
-                            list = courseController.searchList(courseList, Course::getFo, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getFo, textFieldKeres.getText());
                             break;
                         case 9:
-                            list = courseController.searchList(courseList, Course::getKezdes, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getKezdes, textFieldKeres.getText());
                             break;
                         case 10:
-                            list = courseController.searchList(courseList, Course::getHossz, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getHossz, textFieldKeres.getText());
                             break;
                         case 11:
-                            list = courseController.searchList(courseList, Course::getTerem, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getTerem, textFieldKeres.getText());
                             break;
                         case 12:
-                            list = courseController.searchList(courseList, Course::getNap, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getNap, textFieldKeres.getText());
                             break;
                         case 13:
-                            list = courseController.searchList(courseList, Course::getTipus, textFieldKeres);
+                            list = courseController.searchList(courseList, Course::getTipus, textFieldKeres.getText());
                             break;
                     }
 

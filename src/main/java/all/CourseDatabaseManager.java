@@ -118,7 +118,7 @@ public class CourseDatabaseManager {
      * Tárgy törlése
      * @param id a törlendő tárgy elsődleges kulcsa
      */
-    protected void delete(long id) {
+    protected static void delete(long id) {
         Course course = new Course();
         course.setId(id);
 

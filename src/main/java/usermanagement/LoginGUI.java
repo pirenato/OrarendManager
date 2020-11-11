@@ -21,7 +21,6 @@ public class LoginGUI extends JFrame {
 
     public LoginGUI() {
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
-        //courseDatabaseManager.setup();
         HibernateUtil.setup();
         /**
          * A bejelentkezés gombra kattintva az ActionListener a verifyLogin metódust hívja meg.

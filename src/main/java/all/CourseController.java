@@ -9,25 +9,23 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.poi.hwpf.extractor.WordExtractor;
-
 import java.io.*;
 import java.util.ArrayList;
 
-
 public class CourseController {
-
     /**
      * Tárgyak között keres az alapján, hogy a JComboBox-ban melyik elemet jelöltük ki
      * @param courses a Course objektumokat tartalmazó lista
      * @param transform the function that will transform this whole thing
-     * @param search a felhasználó által beírt String, amire keres
+     * @param searchValue a felhasználó által beírt String, amire keres
      * @return egy lista, amiben az összes találat szerepel
      */
-    public static <T> List<Course> searchList(List<Course> courses, Function<Course, T> transform, JTextField search) {
-        String searchValue = search.getText();
-        List<Course> result = courses.stream().filter(item -> transform.apply(item).toString().toLowerCase().contains(searchValue)).collect(Collectors.toList());
+    public static <T> List<Course> searchList(List<Course> courses, Function<Course, T> transform, String searchValue) {
+        List<Course> result = courses.stream().filter(item -> transform.apply(item).toString().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
         return result;
     }
+
+
 
     /**
      * A bemenő .doc kiterjesztésű fájlból kinyeri a szöveget.
@@ -84,7 +82,7 @@ public class CourseController {
                     inputList.get(i).contains("tanszék órái") ||
                     inputList.get(i).contains("─────") ||
                     inputList.get(i).isEmpty() ||
-                    inputList.get(i).length() < 90 //minden ténylegesen tantárgyról szóló oszlop fix hosszúságú, ha nem éri el ezt a karakterszámot a sor akkor nincs rá szükség
+                    inputList.get(i).length() < 90 //minden ténylegesen tantárgyról szóló oszlop fix hosszúságú, ha nem éri el ezt a karakterszámot a sor akkor törölni kell
             ){
                 inputList.remove(i);
                 i--;

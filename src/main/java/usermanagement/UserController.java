@@ -8,13 +8,8 @@ import all.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.Scanner;
 
 public class UserController {
-
-    private static Scanner scanner;
-    private static String filepath = "C:\\Users\\Renato\\IdeaProjects\\Orarend\\src\\main\\resources\\user_list.txt";
-
 
     /**
      * Bejelentkezéskor ellenőrzi, hogy az adatbázisban szerepel-e a beírt felhasználónév és jelszó.
