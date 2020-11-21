@@ -5,6 +5,9 @@
 package usermanagement;
 
 import all.*;
+import gui.AdminGUI;
+import gui.HallgatoGUI;
+import gui.TanarGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -4,13 +4,13 @@
 
 package all;
 
-import javax.swing.*;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import java.io.*;
-import java.util.ArrayList;
 
 public class CourseController {
     /**
@@ -24,7 +24,6 @@ public class CourseController {
         List<Course> result = courses.stream().filter(item -> transform.apply(item).toString().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
         return result;
     }
-
 
 
     /**
@@ -83,7 +82,7 @@ public class CourseController {
                     inputList.get(i).contains("─────") ||
                     inputList.get(i).isEmpty() ||
                     inputList.get(i).length() < 90 //minden ténylegesen tantárgyról szóló oszlop fix hosszúságú, ha nem éri el ezt a karakterszámot a sor akkor törölni kell
-            ){
+            ) {
                 inputList.remove(i);
                 i--;
             } else
@@ -152,14 +151,71 @@ public class CourseController {
         return courses;
     }
 
-    public static void createDatabase(List<Course> courseList) {
-        try {
-            CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
-            for (Course c : courseList) {
-                courseDatabaseManager.create(c);
+
+
+    public static List<Course> searchCourse(List<Course> inputList, int selectedIndex, String seachValue) {
+        List<Course> list = null;
+
+        switch (selectedIndex) {
+            case 0:
+                list = CourseController.searchList(inputList, Course::getFelev, seachValue);
+                break;
+            case 1:
+                list = CourseController.searchList(inputList, Course::getKar, seachValue);
+                break;
+            case 2:
+                list = CourseController.searchList(inputList, Course::getSzki, seachValue);
+                break;
+            case 3:
+                list = CourseController.searchList(inputList, Course::getTi, seachValue);
+                break;
+            case 4:
+                list = CourseController.searchList(inputList, Course::getTantargy, seachValue);
+                break;
+            case 5:
+                list = CourseController.searchList(inputList, Course::getTanszek, seachValue);
+                break;
+            case 6:
+                list = CourseController.searchList(inputList, Course::getEloado, seachValue);
+                break;
+            case 7:
+                list = CourseController.searchList(inputList, Course::getCsoport, seachValue);
+                break;
+            case 8:
+                list = CourseController.searchList(inputList, Course::getFo, seachValue);
+                break;
+            case 9:
+                list = CourseController.searchList(inputList, Course::getKezdes, seachValue);
+                break;
+            case 10:
+                list = CourseController.searchList(inputList, Course::getHossz, seachValue);
+                break;
+            case 11:
+                list = CourseController.searchList(inputList, Course::getTerem, seachValue);
+                break;
+            case 12:
+                list = CourseController.searchList(inputList, Course::getNap, seachValue);
+                break;
+            case 13:
+                list = CourseController.searchList(inputList, Course::getTipus, seachValue);
+                break;
+        }
+
+        return list;
+
+    }
+
+    public static void removeDuplicateCourses(List<Course> courseList) {
+        for (int i = 0; i < courseList.size(); i++) {
+            for (int j = i + 1; j < courseList.size(); j++) {
+                if(courseList.get(j).getTantargy().equals(courseList.get(i).getTantargy())
+                        && courseList.get(j).getKezdes() == courseList.get(i).getKezdes()
+                        && courseList.get(j).getTipus().equals(courseList.get(i).getTipus())
+                        && courseList.get(j).getTerem().equals(courseList.get(i).getTerem())) {
+                    courseList.remove(j);
+                    j--;
+                }
             }
-        } catch (NullPointerException e1) {
-            e1.printStackTrace();
         }
     }
 }
