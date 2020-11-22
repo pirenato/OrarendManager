@@ -1,5 +1,5 @@
 /**
- * Osztály a regisztráció GUI-hoz-
+ * GUI uj felhasznalo regisztralasara
  */
 
 package usermanagement;
@@ -13,7 +13,7 @@ public class RegistrationGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField nevTextField;
+    private JTextField fullnameTextField;
     private JTextField emailTextField;
     private JTextField usernameTextField;
     private JTextField passwordTextField;
@@ -24,12 +24,13 @@ public class RegistrationGUI extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
 
         /**
-         * A gombra kattintva a registerToDatabase() hívodik meg, ami a megadott adatok alapján új felhasználót ír az adatbázisba
+         * A gombra kattintva a felhasznalo altal beirt adatok alapjan letrehoz egy uj felhasznalot
+         * az adatbazisban
          */
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                registration(nevTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
-                JOptionPane.showMessageDialog(null, "Sikeres regisztráció", "Regisztrálás", JOptionPane.PLAIN_MESSAGE);
+                registration(fullnameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+                JOptionPane.showMessageDialog(null, "Sikeres regisztracio", "Regisztralas", JOptionPane.PLAIN_MESSAGE);
             }
         });
 

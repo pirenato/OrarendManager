@@ -16,7 +16,7 @@
           <text value="Órarend fájl beolvasása: "/>
         </properties>
       </component>
-      <component id="956bd" class="javax.swing.JButton" binding="kilepesButton">
+      <component id="956bd" class="javax.swing.JButton" binding="cancelButton">
         <constraints>
           <grid row="17" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -24,7 +24,7 @@
           <text value="Kilépés"/>
         </properties>
       </component>
-      <component id="eb0c2" class="javax.swing.JButton" binding="beolvasButton">
+      <component id="eb0c2" class="javax.swing.JButton" binding="readFileButton">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -32,7 +32,7 @@
           <text value="Beolvas"/>
         </properties>
       </component>
-      <component id="efaf3" class="javax.swing.JButton" binding="keresButton" default-binding="true">
+      <component id="efaf3" class="javax.swing.JButton" binding="searchCoursesButton">
         <constraints>
           <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -40,7 +40,7 @@
           <text value="Keres"/>
         </properties>
       </component>
-      <component id="5784" class="javax.swing.JButton" binding="listazButton">
+      <component id="5784" class="javax.swing.JButton" binding="listCoursesButton">
         <constraints>
           <grid row="4" column="4" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -56,7 +56,7 @@
           <text value="Minden óra listázása"/>
         </properties>
       </component>
-      <component id="3f345" class="javax.swing.JButton" binding="ujOraButton">
+      <component id="3f345" class="javax.swing.JButton" binding="addCourseButton">
         <constraints>
           <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -86,7 +86,7 @@
           </grid>
         </constraints>
       </vspacer>
-      <component id="fbf4d" class="javax.swing.JButton" binding="generalButton" default-binding="true">
+      <component id="fbf4d" class="javax.swing.JButton" binding="generateTimetableButton">
         <constraints>
           <grid row="9" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -94,7 +94,7 @@
           <text value="General"/>
         </properties>
       </component>
-      <component id="9a2f6" class="javax.swing.JTextField" binding="textFieldGeneral">
+      <component id="9a2f6" class="javax.swing.JTextField" binding="generateTimetableTextField">
         <constraints>
           <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -102,7 +102,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="b963d" class="javax.swing.JTextField" binding="textFieldKeres">
+      <component id="b963d" class="javax.swing.JTextField" binding="searchCoursesTextField">
         <constraints>
           <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -124,7 +124,7 @@
           </grid>
         </constraints>
       </vspacer>
-      <component id="6f84" class="javax.swing.JComboBox" binding="comboBoxGeneral">
+      <component id="6f84" class="javax.swing.JComboBox" binding="comboBoxGenerate">
         <constraints>
           <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -135,7 +135,7 @@
           </model>
         </properties>
       </component>
-      <component id="fb363" class="javax.swing.JComboBox" binding="comboBoxKeres">
+      <component id="fb363" class="javax.swing.JComboBox" binding="comboBoxSearchCourses">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -200,7 +200,7 @@
           <text value="Keresés:"/>
         </properties>
       </component>
-      <component id="1e684" class="javax.swing.JTextField" binding="textFieldUserKeres">
+      <component id="1e684" class="javax.swing.JTextField" binding="searchUsersTextField">
         <constraints>
           <grid row="15" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -208,7 +208,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="6a6e5" class="javax.swing.JButton" binding="userKeresButton">
+      <component id="6a6e5" class="javax.swing.JButton" binding="searchUsersButton">
         <constraints>
           <grid row="15" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -224,7 +224,7 @@
           <text value="Felhasználók listázása"/>
         </properties>
       </component>
-      <component id="52f14" class="javax.swing.JButton" binding="userListazButton">
+      <component id="52f14" class="javax.swing.JButton" binding="listUsersButton">
         <constraints>
           <grid row="13" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

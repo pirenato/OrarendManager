@@ -32,7 +32,7 @@
           <text value="Órarend generálása:"/>
         </properties>
       </component>
-      <component id="e3a0e" class="javax.swing.JButton" binding="listButton">
+      <component id="e3a0e" class="javax.swing.JButton" binding="listCoursesButton">
         <constraints>
           <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -40,7 +40,7 @@
           <text value="Listázás"/>
         </properties>
       </component>
-      <component id="54c15" class="javax.swing.JTextField" binding="tankorTextField">
+      <component id="54c15" class="javax.swing.JTextField" binding="generateByTankorTextField">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -48,7 +48,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="5e0f6" class="javax.swing.JButton" binding="generalButton">
+      <component id="5e0f6" class="javax.swing.JButton" binding="generateTimetableButton">
         <constraints>
           <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -56,7 +56,7 @@
           <text value="Generálás"/>
         </properties>
       </component>
-      <component id="faf3b" class="javax.swing.JButton" binding="searchButton">
+      <component id="faf3b" class="javax.swing.JButton" binding="searchCoursesButton">
         <constraints>
           <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -64,7 +64,7 @@
           <text value="Keresés"/>
         </properties>
       </component>
-      <component id="c64b3" class="javax.swing.JTextField" binding="searchTextField">
+      <component id="c64b3" class="javax.swing.JTextField" binding="searchCoursesTextField">
         <constraints>
           <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>

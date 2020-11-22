@@ -1,5 +1,5 @@
 /**
- * Osztály a bejelentkezés és regisztráció kezeléséhez
+ * Osztaly a bejelentkezes es regisztracio kezelesehez
  */
 
 package usermanagement;
@@ -12,14 +12,13 @@ import org.hibernate.Transaction;
 public class UserController {
 
     /**
-     * Bejelentkezéskor ellenőrzi, hogy az adatbázisban szerepel-e a beírt felhasználónév és jelszó.
-     * @param username a felhasználó által megadott felhasználónév
-     * @param password a felhasználó által megadott jelszó
-     * @return ha jó a felhasználónév és a jelszó, akkor a felhasználóhoz tartozó szerepkört adja vissza, ez alapján nyílik meg a megfelelő admin/tanári/felhasználói felület
+     * Bejelentkezeskor ellenorzi, hogy az adatbazisban szerepel-e a beirt felhasznalonev es jelszo.
+     *
+     * @param username a felhasznalo altal megadott felhasznalonev
+     * @param password a felhasznalo altal megadott jelszo
+     * @return ha jo a felhasznalonev es a jelszo, akkor a felhasznalohoz tartozo szerepkort adja vissza, ez alapjan nyilik meg a megfelelo admin/tanari/felhasznaloi felulet
      */
     public static String verifyLogin(String username, String password) {
-        boolean found = false;
-
         Users user = null;
         Transaction transaction = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -43,11 +42,12 @@ public class UserController {
 
 
     /**
-     * Új felhasználó regisztrálása. Ezt követően hallgató szerepkörrel rendelkezik az új felhasználó, az admin adhat neki más jogosultságot.
-     * @param fullname a felhasználó teljes neve
-     * @param email email cím
-     * @param username a felhasználónév, ami az adatbázisban elsődleges kulcs, így muszáj egyedinek lennie
-     * @param password a felhasználóhoz tartozó jelszó
+     * uj felhasznalo regisztralasa, minden esetben hallgato szerepkorrel rendelkezik az uj felhasznalo,
+     * csak admin adhat neki mas jogosultsagot.
+     * @param fullname a felhasznalo teljes neve
+     * @param email email cim
+     * @param username a felhasznalonev, ami az adatbazisban elsodleges kulcs, igy muszaj egyedinek lennie
+     * @param password a felhasznalohoz tartozo jelszo
      */
     public static void registration(String fullname, String email, String username, String password){
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager();

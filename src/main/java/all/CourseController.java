@@ -1,5 +1,5 @@
 /**
- *
+ * Osztaly a Course objektumok kezelesehez
  */
 
 package all;
@@ -14,22 +14,9 @@ import java.util.stream.Collectors;
 
 public class CourseController {
     /**
-     * Tárgyak között keres az alapján, hogy a JComboBox-ban melyik elemet jelöltük ki
-     * @param courses a Course objektumokat tartalmazó lista
-     * @param transform the function that will transform this whole thing
-     * @param searchValue a felhasználó által beírt String, amire keres
-     * @return egy lista, amiben az összes találat szerepel
-     */
-    public static <T> List<Course> searchList(List<Course> courses, Function<Course, T> transform, String searchValue) {
-        List<Course> result = courses.stream().filter(item -> transform.apply(item).toString().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
-        return result;
-    }
-
-
-    /**
-     * A bemenő .doc kiterjesztésű fájlból kinyeri a szöveget.
-     * @param fileName a kiválasztott előzetes órarend fájl
-     * @return egy WordExtractor objektum, ami az egész beolvasott doc fájlból kinyert szöveget tartalmazza
+     * A bemeno .doc kiterjesztesu fajlbol kinyeri a szöveget.
+     * @param fileName a kivalasztott elozetes orarend fajl
+     * @return egy WordExtractor objektum, ami az egesz beolvasott doc fajlbol kinyert szöveget tartalmazza
      */
     public static WordExtractor readDoc(String fileName) {
         String filePath = fileName;
@@ -47,13 +34,12 @@ public class CourseController {
     }
 
     /**
-     * Inputként kap egy WordExtractor objektumot, melyet String-ekből álló listává alakít át.
-     * Ezek után az eredeti dokumentum fájl egy sora az ArrayList-nek egy eleme lesz.
-     * @param extractor az a WordExtractor objektum, melyet konvertálni kell
-     * @throws IOException dobódik, ha a BufferReader-nél bármilyen IO hiba keletkezik
+     * Inputkent kap egy WordExtractor objektumot, melyet String-ekbol allo listava alakit at.
+     * Ezek utan az eredeti dokumentum fajl egy sora az ArrayList-nek egy eleme lesz.
+     * @param extractor az a WordExtractor objektum, melyet konvertalni kell
+     * @throws IOException dobodik, ha a BufferReader-nel barmilyen IO hiba keletkezik
      */
     public static List<String> docToArrayList(WordExtractor extractor) throws IOException {
-
         List<String> wordDoc = new ArrayList<>();
         BufferedReader reader;
         reader = new BufferedReader(new StringReader(extractor.getText()));
@@ -62,26 +48,25 @@ public class CourseController {
         while (line != null) {
             line = reader.readLine();
             wordDoc.add(line);
-
         }
         reader.close();
         return wordDoc;
     }
 
     /**
-     * Az előzetes órarend minden oldala tartalmaz olyan sorokat, melyek nem egy tantárgyat képviselnek (fejléc, lábléc, stb.)
-     * Ez a metódus eltávolít minden ilyen elemet a listából, végeredményül van egy "kész lista"
-     * @param inputList a "docToArrayList" által kapott String-ek listája
+     * Az elozetes orarend minden oldala tartalmaz olyan sorokat, melyek nem egy tantargyat kepviselnek (fejlec, lablec, stb.)
+     * Ez a metodus eltavolit minden ilyen elemet a listabol, a kimenete a vegleges lista, ami mar csak targykbol all
+     * @param inputList a "docToArrayList" altal kapott String-ek listaja
      */
     public static void removeUnnecessaryLines(List<String> inputList) {
         for (int i = 0; i < inputList.size() - 1; i++) {
 
             if (inputList.get(i).contains(".lap") ||
-                    inputList.get(i).contains("Ti.Tantárgy") ||
-                    inputList.get(i).contains("tanszék órái") ||
+                    inputList.get(i).contains("Ti.Tantargy") ||
+                    inputList.get(i).contains("tanszek orai") ||
                     inputList.get(i).contains("─────") ||
                     inputList.get(i).isEmpty() ||
-                    inputList.get(i).length() < 90 //minden ténylegesen tantárgyról szóló oszlop fix hosszúságú, ha nem éri el ezt a karakterszámot a sor akkor törölni kell
+                    inputList.get(i).length() < 90 //minden tenylegesen tantargyrol szolo oszlop fix hosszusagu, ha nem eri el ezt a karakterszamot a sor akkor törölni kell
             ) {
                 inputList.remove(i);
                 i--;
@@ -91,9 +76,22 @@ public class CourseController {
     }
 
     /**
-     * A korábban készült listából készít Course objektumokat.
-     * Mivel minden oszlop fix hosszúságú, így a String-ekből egyszerűen létre lehet hozni a Course objektumokat tartalmazó listát
-     * @param list egy olyan String-ekből álló lista, ami már nem tartalmaz felesleges karaktereket, sorokat, minden eleme egy-egy tantárgy
+     * Targyak kozott keres az alapjan, hogy a JComboBox-ban melyik elemet jeloltuk ki
+     * @param courses a Course objektumokat tartalmazo lista
+     * @param transform
+     * @param searchValue a felhasznalo altal beirt String, amire keres
+     * @return Course objektumokbol allo lista, amiben az összes talalat szerepel
+     */
+    public static <T> List<Course> searchList(List<Course> courses, Function<Course, T> transform, String searchValue) {
+        List<Course> result = courses.stream().filter(item -> transform.apply(item).toString().toLowerCase().contains(searchValue.toLowerCase())).collect(Collectors.toList());
+        return result;
+    }
+
+
+    /**
+     * A korabban keszült listabol keszit Course objektumokat.
+     * Mivel minden oszlop fix hosszusagu, igy a String-ekbol egyszeruen ki lehet nyerni az adatokat
+     * @param list egy olyan String-ekbol allo lista, ami mar nem tartalmaz felesleges karaktereket, sorokat, minden eleme egy-egy tantargy
      * @return a Course list
      */
     public static List<Course> stringListToCourseList(List<String> list) {
@@ -104,46 +102,46 @@ public class CourseController {
 
         for (String targy : list) {
             try {
-                String[] egyTargy = {
-                        targy.substring(2, 4).trim(), //0. oszlop - félév
+                String[] courseString = {
+                        targy.substring(2, 4).trim(), //0. oszlop - felev
                         targy.substring(4, 7).trim(), //1. oszlop - kar
                         targy.substring(8, 10).trim(), //2. oszlop - szki
                         targy.substring(10, 12).trim(), //3. oszlop - ti
-                        targy.substring(16, 52).trim(), //4. oszlop - tantárgy
-                        targy.substring(52, 55).trim(), //5. oszlop - tanszék
-                        targy.substring(56, 62).trim(), //6. oszlop - tanár
+                        targy.substring(16, 52).trim(), //4. oszlop - tantargy
+                        targy.substring(52, 55).trim(), //5. oszlop - tanszek
+                        targy.substring(56, 62).trim(), //6. oszlop - tanar
                         targy.substring(63, 69).trim().replaceAll("\\s+", ""), //7. oszlop - csoport
-                        targy.substring(70, 72).trim(), //8. oszlop - fő
+                        targy.substring(70, 72).trim(), //8. oszlop - fo
                         targy.substring(76, 78).trim(), //9. oszlop - nap
-                        targy.substring(79, 81).trim(), //10. oszlop - kezdés
+                        targy.substring(79, 81).trim(), //10. oszlop - kezdes
                         targy.substring(82, 84).trim(), //11. oszlop - hossz
                         targy.substring(85, 87).trim(), //12. oszlop - tipus
                         targy.substring(87, 93).trim() //13. oszlop - terem
                 };
 
                 try {
-                    felev = Integer.parseInt(egyTargy[0]);
+                    felev = Integer.parseInt(courseString[0]);
                 } catch (NumberFormatException e) {
                     felev = 0;
                 }
 
-                Course temp = new Course();
-                temp.setFelev(felev);
-                temp.setKar(egyTargy[1]);
-                temp.setSzki(egyTargy[2]);
-                temp.setTi(egyTargy[3]);
-                temp.setTantargy(egyTargy[4]);
-                temp.setTanszek(egyTargy[5]);
-                temp.setEloado(egyTargy[6]);
-                temp.setCsoport(egyTargy[7]);
-                temp.setFo(Integer.parseInt(egyTargy[8]));
-                temp.setNap(egyTargy[9]);
-                temp.setKezdes(Integer.parseInt(egyTargy[10]));
-                temp.setHossz(Integer.parseInt(egyTargy[11]));
-                temp.setTipus(egyTargy[12]);
-                temp.setTerem(egyTargy[13]);
+                Course tempCourse = new Course();
+                tempCourse.setFelev(felev);
+                tempCourse.setKar(courseString[1]);
+                tempCourse.setSzki(courseString[2]);
+                tempCourse.setTi(courseString[3]);
+                tempCourse.setTantargy(courseString[4]);
+                tempCourse.setTanszek(courseString[5]);
+                tempCourse.setEloado(courseString[6]);
+                tempCourse.setCsoport(courseString[7]);
+                tempCourse.setFo(Integer.parseInt(courseString[8]));
+                tempCourse.setNap(courseString[9]);
+                tempCourse.setKezdes(Integer.parseInt(courseString[10]));
+                tempCourse.setHossz(Integer.parseInt(courseString[11]));
+                tempCourse.setTipus(courseString[12]);
+                tempCourse.setTerem(courseString[13]);
 
-                courseDatabaseManager.create(temp);
+                courseDatabaseManager.create(tempCourse);
             } catch (NullPointerException e) {
                 continue;
             }
@@ -151,8 +149,13 @@ public class CourseController {
         return courses;
     }
 
-
-
+    /**
+     *
+     * @param inputList
+     * @param selectedIndex
+     * @param seachValue
+     * @return
+     */
     public static List<Course> searchCourse(List<Course> inputList, int selectedIndex, String seachValue) {
         List<Course> list = null;
 
@@ -202,9 +205,14 @@ public class CourseController {
         }
 
         return list;
-
     }
 
+    /**
+     * Egy targy tobbszor szerepel a listaban, ha egy adott targy tobb tankornek is van.
+     * Az orarend generalasahoz csak egy orara van szukseg, ez a metodus nem jeleniti meg a tablazatban
+     * a duplikalt orakat, de az adatbazisbol nem torli.
+     * @param courseList
+     */
     public static void removeDuplicateCourses(List<Course> courseList) {
         for (int i = 0; i < courseList.size(); i++) {
             for (int j = i + 1; j < courseList.size(); j++) {

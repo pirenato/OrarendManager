@@ -1,3 +1,7 @@
+/**
+ * Egyszeru POJO osztaly a Users entitasokhoz
+ */
+
 package usermanagement;
 import javax.persistence.*;
 import javax.persistence.Table;

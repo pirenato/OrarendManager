@@ -1,5 +1,5 @@
 /**
- * Osztály a Course osztály adatbázisműveleteinek kezeléséhez
+ * Osztaly a Course osztaly adatbazismuveleteinek kezelesehez
  */
 
 package all;
@@ -11,12 +11,14 @@ import org.hibernate.query.Query;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Queue;
-import java.util.zip.CheckedOutputStream;
 
 @SuppressWarnings("ALL")
 public class CourseDatabaseManager {
 
+    /**
+     * Az adatbazis feltoltese az elozetes orarendbol beolvasott orakkal
+     * @param courseList Course objektumokbol allo lista
+     */
     public static void createDatabase(List<Course> courseList) {
         try {
             CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
@@ -29,7 +31,7 @@ public class CourseDatabaseManager {
     }
 
     /**
-     * Új óra írása az adatbázisba
+     * uj ora irasa az adatbazisba
      * @param c
      */
     public void create(Course c) {
@@ -43,11 +45,11 @@ public class CourseDatabaseManager {
     }
 
     /**
-     * Óra adatainak módosítása az adatbázisba
-     * A JTable-ben módosíthatók a cellák, módosításkor elég a kilistázott tárgyak közül átírni a kívánt mezőt.
-     * @param id annak a tárgynak az azonosítója, amelyet módosítani szeretnénk
-     * @param newData az új érték, amire leakarjuk cserélni az adatbázisban szereplő értéket
-     * @param column a JTable-ben kiválasztott oszlop, aminek az adatát módosítani szeretnénk
+     * ora adatainak modositasa az adatbazisba
+     * A JTable-ben modosithatok a cellak, modositaskor eleg a tablazatban atirni az erintett mezot.
+     * @param id annak a targynak az azonositoja, amelyet modositani szeretnenk
+     * @param newData az uj ertek, amire leakarjuk cserelni az adatbazisban szereplo erteket
+     * @param column a JTable-ben kivalasztott oszlop, aminek az adatat modositani szeretnenk
      */
     public static void update(long id, String newData, int column) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -58,7 +60,7 @@ public class CourseDatabaseManager {
 
             switch (column) {
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Az ID nem szerkeszthető", "Szerkesztési hiba", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Az ID nem szerkesztheto", "Szerkesztesi hiba", JOptionPane.ERROR_MESSAGE);
                     break;
                 case 1:
                     course.setFelev(Integer.valueOf(newData));
@@ -114,9 +116,9 @@ public class CourseDatabaseManager {
     }
 
     /**
-     * Adatbázisból egy rekord beolvasása az id alapján
-     * @param id a tárgy elsődleges kulcsa
-     * @return ha létezik az id visszaadja a CourseDB objektumot
+     * Adatbazisbol egy rekord beolvasasa az id alapjan
+     * @param id a targy elsodleges kulcsa
+     * @return ha letezik az id visszaadja a Course objektumot
     */
     protected Course read(long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -126,10 +128,9 @@ public class CourseDatabaseManager {
         return course;
     }
 
-
     /**
-     * Tárgy törlése
-     * @param id a törlendő tárgy elsődleges kulcsa
+     * Targy torlese adatbazisbol
+     * @param id a torlendo targy elsodleges kulcsa
      */
     public static void delete(long id) {
         Course course = new Course();
@@ -145,8 +146,8 @@ public class CourseDatabaseManager {
     }
 
     /**
-     * Az összes adatbázisba lévő rekord beolvasása
-     * @return Course objektumokból álló lista
+     * Az osszes adatbazisba levo rekord beolvasasa
+     * @return Course objektumokbol allo lista
      */
     public List<Course> loadAllData() {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -155,13 +156,20 @@ public class CourseDatabaseManager {
         return session.createCriteria(Course.class).list();
     }
 
-    public List<Course> search(String selectedColumn, String selectedTanszek) {
+
+    /**
+     * Az orarend generalasakor keres az adatbazisban, a kivalasztott oszlopban a felhasznalo altal beirt erteket
+     * @param selectedColumn oszlop az adatbazisban, amiben keresi a megadott erteket
+     * @param userEntry a keresett ertek
+     * @return a keresett Course objektumokat tartalmazo listat adja vissza
+     */
+    public List<Course> searchDatabaseColumn(String selectedColumn, String userEntry) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         String hql = "FROM Course c WHERE c." + selectedColumn + "= :" + selectedColumn;
         Query query = session.createQuery(hql);
-        query.setParameter(selectedColumn, selectedTanszek);
+        query.setParameter(selectedColumn, userEntry);
         List<Course> result = query.list();
 
         return result;

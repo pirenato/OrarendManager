@@ -1,8 +1,11 @@
+/**
+ * Tablazat amiben az adatbazisbol kiolvasott felhasznalok adatai szerepelnek.
+ * Egy cella modositasaval egyidoben az adatbazisban is modosul az adat.
+ */
 package gui;
 
 import usermanagement.UserDatabaseManager;
 import usermanagement.Users;
-
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -25,17 +28,20 @@ public class UserTable extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        //JTable fejlecek hozzaadasa
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Teljes név", "Felhasználónév", "Email", "Típus"},0);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
         table.setPreferredScrollableViewportSize(new Dimension(550, 200));
 
 
+        //tablazat feltoltese
         for (int i = 0; i < userlist.size(); i++) {
             model.addRow(new Object[]{userlist.get(i).getFullName(), userlist.get(i).getUsername(), userlist.get(i).getEmail(), userlist.get(i).getRole()});
         }
-
         table.setModel(model);
+
+        //a szerepkor oszlophoz JComboBox beallitasa
         setupRoleColumn(table, table.getColumnModel().getColumn(3));
 
         buttonOK.addActionListener(new ActionListener() {
@@ -50,18 +56,20 @@ public class UserTable extends JDialog {
             }
         });
 
+
+        /**
+         * Modositott cellaertek adatbazisba irasa
+         */
         model.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    int column = e.getColumn();
-
+                    int column = e.getColumn(); //elmenti a modositott cella indexet
                     DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+                    String updatedCellData = String.valueOf(defaultTableModel.getValueAt(table.getSelectedRow(), table.getSelectedColumn())); //a cellaba beirt uj ertek
+                    String username = defaultTableModel.getValueAt(table.getSelectedRow(), 1).toString(); //a kivalasztott sor 1. oszlopa az id / username, ami alapján megkeresi az adatbazisban a modositott rekordot
 
-                    String data = String.valueOf(defaultTableModel.getValueAt(table.getSelectedRow(), table.getSelectedColumn())); //a cellába beírt új érték
-                    String username = defaultTableModel.getValueAt(table.getSelectedRow(), 1).toString(); //a kiválasztott sor 1. oszlopa az id, ami alapján megkeresi az adatbázisban a módosítandó rekordot
-
-                    UserDatabaseManager.update(username, data, column);
+                    UserDatabaseManager.update(username, updatedCellData, column); //a meghivott metodus modositja az adatbazisban a rekordot
                 }
 
             }
@@ -97,6 +105,12 @@ public class UserTable extends JDialog {
         dispose();
     }
 
+    /**
+     * Beallitja a szerepkor oszlopban a JComboBox-ot.
+     * Csak a JComboBox-ban szereplo ertekekre lehet modositani
+     * @param table
+     * @param roleColumn
+     */
     private void setupRoleColumn(JTable table, TableColumn roleColumn) {
         JComboBox comboBox = new JComboBox();
         comboBox.addItem("admin");

@@ -1,3 +1,7 @@
+/**
+ * A generalt orarend felhasznaloi felulete
+ */
+
 package gui;
 
 import all.Course;
@@ -24,7 +28,7 @@ public class TimeTable extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
 
         /**
-         * Az orarendet kulon napokra kell feloszatni
+         * A sok egy idoben levo ora miatt nagyon "szeles" lenne a tablazat, ezert az orarendet kulon napokra kell feloszatni
          */
         List<Course> hetfo = new ArrayList<Course>();
         List<Course> kedd = new ArrayList<Course>();
@@ -46,7 +50,8 @@ public class TimeTable extends JDialog {
 
         /**
          * Sok ora "duplikalva" van, egy idopontban, egy teremben van, es ugyanaz a tanar tartja,
-         * csak tobb csoportnak kulon van kiirva, ezekbol az orarend generalasahoz eleg csak egy ora ezek kozul
+         * csak tobb csoportnak kulon van kiirva, orarend generalasahoz eleg ezek kozul csak egy ora,
+         * a tobbit ez a metodus eltavolitja a listakbol
          */
         CourseController.removeDuplicateCourses(hetfo);
         CourseController.removeDuplicateCourses(kedd);
@@ -54,6 +59,7 @@ public class TimeTable extends JDialog {
         CourseController.removeDuplicateCourses(csutortok);
         CourseController.removeDuplicateCourses(pentek);
 
+        //alapertelmezettkent a hetfoi napon levo targyakat listazza
         selectDay(hetfo, "Hetfo");
 
         backButton.addActionListener(new ActionListener() {
@@ -77,8 +83,8 @@ public class TimeTable extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setMinimumSize(new Dimension(1000, 400));
-        pack();
+
+        //a JComboBox-ban kivalasztott nap orainak megjelenitese
         comboBox1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,6 +122,9 @@ public class TimeTable extends JDialog {
                 }
             }
         });
+
+        setMinimumSize(new Dimension(1000, 400));
+        pack();
     }
 
     private void onOK() {
@@ -128,13 +137,22 @@ public class TimeTable extends JDialog {
         dispose();
     }
 
-    private void selectDay(List<Course> dayList, String columnName) {
+    /**
+     * Orarend generalasahoz szukseges tablazat letrehozasa.
+     * A tablazat mindig ket oszloppal indul, az elso az orak kezdesenek idopontjat tartalmazza, a masodik oszlopba
+     * szurja be az adott oraban kezdodo tantargy nevet. Ha utkozes van egy uj oszlopot ad hozza, oda irja be a targy nevet.
+     * @param dayList a targyakat tartalmazo lista kulon napokra bontva
+     * @param dayColumn ha nem ures cellaba akarunk irni (orautkozes) az ujonnan hozzaadott oszlop neve
+     */
+    private void selectDay(List<Course> dayList, String dayColumn) {
 
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Kezdés", columnName}, 0);
+        //fejlec hozzaadasa
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Kezdés", dayColumn}, 0);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
         table.setPreferredScrollableViewportSize(new Dimension(800, 200));
 
+        //elso oszlop feltoltese az orak lehetseges kezdesenek idopontjaval
         model.addRow(new Object[]{"08:00"});
         model.addRow(new Object[]{"09:00"});
         model.addRow(new Object[]{"10:00"});
@@ -148,10 +166,12 @@ public class TimeTable extends JDialog {
         model.addRow(new Object[]{"18:00"});
         model.addRow(new Object[]{"19:00"});
 
+        //a tablazat feltoltese az adott nap targyaival
         for (int i = 0; i < dayList.size(); i++) {
             int row;
-            int column = 1;
+            int column = 1; //a 0. oszlop az idopont, mindig 1-rol kell indulnia
 
+            //sor beallitasa az ora kezdese alapjan, az elso ora 8-kor kezdodik, ekkor a sort 0-ra kell beallitani
             switch (dayList.get(i).getKezdes()) {
                 case 8:
                     row = 0;
@@ -191,33 +211,31 @@ public class TimeTable extends JDialog {
                     //throw new IllegalStateException("Unexpected value: " + list.get(i).getKezdes());
             }
 
-            Object cellValue = model.getValueAt(row, column);
-            if(cellValue == null) {
+            Object cellValue = model.getValueAt(row, column); //valtozo a cella uressegenek vizsgalatara
+            if(cellValue == null) { //ha a cella ures a tantargy neve beirasra kerul a cellaba
                 model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column);
             } else {
-                int columnCount = model.getColumnCount() -1;
-                if (columnCount == column) {
-                    model.addColumn(columnName);
+                int columnCount = model.getColumnCount() -1; //a tablazat oszlopainak szama az adott iteracioban
+                if (column == columnCount) { //annak vizsgalata, hogy az iteracioban az aktualis oszlop az utolso-e a tablazatban
+                    model.addColumn(dayColumn); //ha az utolso oszlop volt es nem ures az adott cella, akkor uj oszlopot kell hozzaadni
                     column++;
-                    model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column);
-
-                } else {
-                    while (column < columnCount) {
+                    model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //a megnovelt column valtozoval mar az uj oszlopba szurja be az uj targyat
+                } else { //ha az iteracioban szereplo oszlop nem az utolso oszlop a tablazatban
+                    while (column < columnCount) { //vegig kell mennie a a tablazat oszlopain, es minden oszlopban megvizsgalni van-e ures cella a megfelelo sorban
                         column++;
                         cellValue = model.getValueAt(row, column);
                         if (cellValue == null) {
-                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column);
+                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //ha volt ures cella a targy beszurhato
                             break;
-                        } else if (column == columnCount && cellValue != null) {
-                            model.addColumn(columnName);
+                        } else if (column == columnCount && cellValue != null) { //ha az osszes oszlopon atment a ciklus es nem talalt ures oszlopot
+                            model.addColumn(dayColumn);
                             column++;
-                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column);
+                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //targy beszurasa az ujonnan hozzaadott oszlopba
                         }
                     }
                 }
             }
         }
         table.setModel(model);
-
     }
 }

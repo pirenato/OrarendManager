@@ -20,19 +20,19 @@ import java.util.List;
 
 public class AdminGUI extends JFrame {
     private JPanel panel;
-    private JButton beolvasButton;
-    private JButton kilepesButton;
-    private JComboBox comboBoxKeres;
-    private JTextField textFieldKeres;
-    private JButton keresButton;
-    private JButton listazButton;
-    private JButton ujOraButton;
-    private JButton generalButton;
-    private JTextField textFieldGeneral;
-    private JComboBox comboBoxGeneral;
-    private JTextField textFieldUserKeres;
-    private JButton userKeresButton;
-    private JButton userListazButton;
+    private JButton readFileButton;
+    private JButton cancelButton;
+    private JComboBox comboBoxSearchCourses;
+    private JTextField searchCoursesTextField;
+    private JButton searchCoursesButton;
+    private JButton listCoursesButton;
+    private JButton addCourseButton;
+    private JButton generateTimetableButton;
+    private JTextField generateTimetableTextField;
+    private JComboBox comboBoxGenerate;
+    private JTextField searchUsersTextField;
+    private JButton searchUsersButton;
+    private JButton listUsersButton;
     private File inputFile;
     private String filePath;
     private List<Course> subjects;
@@ -44,34 +44,34 @@ public class AdminGUI extends JFrame {
     public AdminGUI() {
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
-        userList = userDatabaseManager.loadAllUserData();
-        courseList = courseDatabaseManager.loadAllData(); //az adatbazisbol az összes targy beolvasasa
+        userList = userDatabaseManager.loadAllUserData(); //adatbazisbol az osszes felhasznalo beolvasasa
+        courseList = courseDatabaseManager.loadAllData(); //adatbazisbol az osszes targy beolvasasa
 
         /**
          * FileDialog az elozetes orarend fajl beolvasasara.
          * A fajl beolvasasa utan automatikusan letrehozza az adatbazist is.
          */
-        beolvasButton.addActionListener(new ActionListener() {
+        readFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileDialog fileDialog = new FileDialog(new Frame(), " ", FileDialog.LOAD);
+                FileDialog fileDialog = new FileDialog(new Frame(), " ", FileDialog.LOAD); //fajl kivalasztasara felugro ablak
                 fileDialog.setFile("*.doc");
                 fileDialog.setVisible(true);
 
                 if (fileDialog.getFile() != null) {
-                    inputFile = new File(fileDialog.getDirectory(), fileDialog.getFile());
+                    inputFile = new File(fileDialog.getDirectory(), fileDialog.getFile()); //file beolvasasa
                     filePath = inputFile.toString();
                     List<String> orarendDoc = null; //
                     try {
-                        orarendDoc = CourseController.docToArrayList(CourseController.readDoc(filePath));
+                        orarendDoc = CourseController.docToArrayList(CourseController.readDoc(filePath)); //a fajlbol elkesziti a String-eket tartalmazo ArrayList-et
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    CourseController.removeUnnecessaryLines(orarendDoc);
-                    subjects = CourseController.stringListToCourseList(orarendDoc);
+                    CourseController.removeUnnecessaryLines(orarendDoc); //az irrelevans (nem tantargyakat tartalmazo) sorokat torli az ArrayList-bol
+                    subjects = CourseController.stringListToCourseList(orarendDoc); //a String-kent tarolt targyokbol Course objektumokat keszit
                     JOptionPane.showMessageDialog(null, "Fajl beolvasva!\n " + filePath, "Beolvasas", JOptionPane.PLAIN_MESSAGE);
 
-                    CourseDatabaseManager.createDatabase(subjects);
+                    CourseDatabaseManager.createDatabase(subjects); //a kesz Course objektumokat tartalmazo ArrayList-et adatbazisba irja
                 }
             }
         });
@@ -80,7 +80,7 @@ public class AdminGUI extends JFrame {
         /**
          * Osszes ora megjelenitese egy tablazatban
          */
-        listazButton.addActionListener(new ActionListener() {
+        listCoursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -98,12 +98,13 @@ public class AdminGUI extends JFrame {
         /**
          * A kivalasztott oszlop alapjan kereses a targyakban
          */
-        keresButton.addActionListener(new ActionListener() {
+        searchCoursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 courseList = courseDatabaseManager.loadAllData();
                 try {
-                    List<Course> list = CourseController.searchCourse(courseList, comboBoxKeres.getSelectedIndex(), textFieldKeres.getText());
+                    List<Course> list = CourseController.searchCourse(courseList, comboBoxSearchCourses.getSelectedIndex(), searchCoursesTextField.getText());
+                    //List<Course> list = courseDatabaseManager.searchDatabaseColumn(comboBoxKeres.getSelectedItem().toString(), textFieldKeres.getText());
 
                     JDialog dialog = new CourseTable(list);
                     dialog.setVisible(true);
@@ -115,13 +116,13 @@ public class AdminGUI extends JFrame {
 
         /**
          * uj ora hozzaadasa az adatbazisba.
-         * A felugro JDialogba lehet megadni a szukseges adatokat.
+         * A felugro JDialogba lehet megadni az uj ora adatait.
          */
-        ujOraButton.addActionListener(new ActionListener() {
+        addCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    JDialog dialog = new AddCourse();
+                    JDialog dialog = new AddCourseGUI();
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, "Hiba tortent", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -132,7 +133,7 @@ public class AdminGUI extends JFrame {
         /**
          * Program bezarasa
          */
-        kilepesButton.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logout();
@@ -141,7 +142,7 @@ public class AdminGUI extends JFrame {
         });
 
         //Felhasznalok listazasa
-        userListazButton.addActionListener(new ActionListener() {
+        listUsersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -155,18 +156,21 @@ public class AdminGUI extends JFrame {
         });
 
 
-        generalButton.addActionListener(new ActionListener() {
+        /**
+         * Orarend generalasa, a felhasznalo valaszthatja ki, hogy a beirt tanszek vagy eloado oraibol akar generalni
+         */
+        generateTimetableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    switch (comboBoxGeneral.getSelectedIndex()) {
+                    switch (comboBoxGenerate.getSelectedIndex()) {
                         case 0:
-                            String keresettTanszek = textFieldGeneral.getText();
-                            JDialog tanszekDialog = new TimeTable(courseDatabaseManager.search("tanszek", keresettTanszek));
+                            String keresettTanszek = generateTimetableTextField.getText();
+                            JDialog tanszekDialog = new TimeTable(courseDatabaseManager.searchDatabaseColumn("tanszek", keresettTanszek));
                             tanszekDialog.setVisible(true);
                         case 1:
-                            String keresettEloado = textFieldGeneral.getText();
-                            JDialog eloadoDialog = new TimeTable(courseDatabaseManager.search("eloado", keresettEloado));
+                            String keresettEloado = generateTimetableTextField.getText();
+                            JDialog eloadoDialog = new TimeTable(courseDatabaseManager.searchDatabaseColumn("eloado", keresettEloado));
                             eloadoDialog.setVisible(true);
                     }
                 } catch (Exception e1) {

@@ -1,5 +1,5 @@
 /**
- * Course POJO osztály a tárgy entitásokhoz
+ * Egyszeru POJO osztaly a Course entitasokhoz
  */
 
 package all;
@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Table(name = "oratabla")
 public class Course {
 
+    //adattagok amik az elozetes orarendben szereplo oszlopoknak felelnek meg
     private long id;
     private int felev;
     private String kar;

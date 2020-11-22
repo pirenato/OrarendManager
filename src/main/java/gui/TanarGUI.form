@@ -15,7 +15,7 @@
           </grid>
         </constraints>
       </vspacer>
-      <component id="ad9ea" class="javax.swing.JButton" binding="listazasButton">
+      <component id="ad9ea" class="javax.swing.JButton" binding="listCoursesButton">
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -23,7 +23,7 @@
           <text value="Listázás"/>
         </properties>
       </component>
-      <component id="4178a" class="javax.swing.JButton" binding="keresesButton">
+      <component id="4178a" class="javax.swing.JButton" binding="searchCoursesButton">
         <constraints>
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -31,7 +31,7 @@
           <text value="Keresés"/>
         </properties>
       </component>
-      <component id="49770" class="javax.swing.JButton" binding="generalButton">
+      <component id="49770" class="javax.swing.JButton" binding="generateTimetableButton">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -39,7 +39,7 @@
           <text value="Generálás"/>
         </properties>
       </component>
-      <component id="778e8" class="javax.swing.JButton" binding="ujOraButton">
+      <component id="778e8" class="javax.swing.JButton" binding="newCourseButton">
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -71,7 +71,7 @@
           <text value="Óra keresés:"/>
         </properties>
       </component>
-      <component id="7b19d" class="javax.swing.JComboBox" binding="comboBoxKeres">
+      <component id="7b19d" class="javax.swing.JComboBox" binding="comboBoxSearchCourse">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -94,7 +94,7 @@
           </model>
         </properties>
       </component>
-      <component id="83e5d" class="javax.swing.JTextField" binding="textFieldKeres">
+      <component id="83e5d" class="javax.swing.JTextField" binding="searchTextField">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -110,7 +110,7 @@
           <text value="Órarend generálása"/>
         </properties>
       </component>
-      <component id="7d76e" class="javax.swing.JComboBox" binding="comboBoxGeneral">
+      <component id="7d76e" class="javax.swing.JComboBox" binding="comboBoxGenerateTimetable">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -121,7 +121,7 @@
           </model>
         </properties>
       </component>
-      <component id="d7a63" class="javax.swing.JTextField" binding="textFieldGeneral">
+      <component id="d7a63" class="javax.swing.JTextField" binding="generateTextField">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -129,7 +129,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="47b2c" class="javax.swing.JButton" binding="kilépésButton" default-binding="true">
+      <component id="47b2c" class="javax.swing.JButton" binding="cancelButton">
         <constraints>
           <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

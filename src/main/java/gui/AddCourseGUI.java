@@ -1,5 +1,8 @@
 /**
- * Osztály egy új óra adatbázishoz való hozzáadására
+ * GUI egy uj ora adatbazishoz valo hozzaadasahoz.
+ * A Course minden adattagjanak megadasahoz van egy JTextField, az oda beirt ertekek alapjan
+ * letrehozza az adatbazisban az uj orat
+ *
  */
 
 package gui;
@@ -11,9 +14,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AddCourse extends JDialog {
+public class AddCourseGUI extends JDialog {
     private JPanel contentPane;
-    private JButton createButton;
+    private JButton addButton;
     private JButton buttonCancel;
     private JTextField karTextField;
     private JTextField szkiTextField;
@@ -30,10 +33,10 @@ public class AddCourse extends JDialog {
     private JTextField tipusTextField;
     private JTextField felevTextField;
 
-    public AddCourse() {
+    public AddCourseGUI() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(createButton);
+        getRootPane().setDefaultButton(addButton);
 
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
 
@@ -60,7 +63,7 @@ public class AddCourse extends JDialog {
 
 
 
-        createButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -81,10 +84,9 @@ public class AddCourse extends JDialog {
                     temp.setTerem(teremTextField.getText());
 
                     courseDatabaseManager.create(temp);
-                    JOptionPane.showMessageDialog(null, "Hozzaadva", "Hozzá lett adva", JOptionPane.INFORMATION_MESSAGE);
-
+                    JOptionPane.showMessageDialog(null, "Az ora sikeresen letrehozva!", "Ora hozzaadva", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception e1) {
-                    JOptionPane.showMessageDialog(null, "Fos", "Szar", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Az ora letrehozasa sikertelen!", "Hiba tortent", JOptionPane.ERROR_MESSAGE);
 
                 }
             }

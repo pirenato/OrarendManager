@@ -1,5 +1,5 @@
 /**
- * Osztály a Hibernate kezeléséhez
+ * Osztaly a Hibernate konfiguralasahoz / kezelesehez
  */
 
 package all;
@@ -12,7 +12,7 @@ public class HibernateUtil {
     private static SessionFactory sessionFactory;
 
     /**
-     * Hibernate konfigurálása a hibernate.cfg.xml alapján
+     * Hibernate konfiguralasa a hibernate.cfg.xml alapjan
      */
     public static void setup() {
         Configuration config = new Configuration();
