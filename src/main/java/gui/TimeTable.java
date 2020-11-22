@@ -137,7 +137,7 @@ public class TimeTable extends JDialog {
         dispose();
     }
 
-    /**
+    /** TODO: jelenleg csak a kezdodo oraba szurja be a targyat, meg kell oldani hogy a hosszat is figyelembe vegye
      * Orarend generalasahoz szukseges tablazat letrehozasa.
      * A tablazat mindig ket oszloppal indul, az elso az orak kezdesenek idopontjat tartalmazza, a masodik oszlopba
      * szurja be az adott oraban kezdodo tantargy nevet. Ha utkozes van egy uj oszlopot ad hozza, oda irja be a targy nevet.

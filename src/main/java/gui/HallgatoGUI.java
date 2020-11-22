@@ -74,7 +74,6 @@ public class HallgatoGUI {
         });
     }
 
-
     public void HallgatoPage() {
         JFrame frame = new JFrame("GUI");
         frame.setContentPane(new HallgatoGUI().panel);

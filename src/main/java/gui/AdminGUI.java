@@ -42,6 +42,7 @@ public class AdminGUI extends JFrame {
 
 
     public AdminGUI() {
+
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager();
         userList = userDatabaseManager.loadAllUserData(); //adatbazisbol az osszes felhasznalo beolvasasa
@@ -136,8 +137,7 @@ public class AdminGUI extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logout();
-                //System.exit(0);
+                System.exit(0);
             }
         });
 
@@ -178,6 +178,7 @@ public class AdminGUI extends JFrame {
                 }
             }
         });
+
     }
 
     /**
@@ -192,8 +193,4 @@ public class AdminGUI extends JFrame {
         frame.setVisible(true);
     }
 
-    public void logout() {
-        this.setVisible(false);
-        dispose();
-    }
 }
