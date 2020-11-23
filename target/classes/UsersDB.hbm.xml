@@ -11,8 +11,8 @@
             <column name="password" length="255" not-null="true" />
         </property>
 
-        <property name="fullName" type="string">
-            <column name="teljes_nev" length="255" not-null="true" />
+        <property name="full_name" type="string">
+            <column name="full_name" length="255" not-null="true" />
         </property>
 
         <property name="email" type="string">
@@ -20,7 +20,7 @@
         </property>
 
         <property name="role" type="string">
-            <column name="szerepkor" length="255" not-null="true" />
+            <column name="role" length="255" not-null="true" />
         </property>
 
 

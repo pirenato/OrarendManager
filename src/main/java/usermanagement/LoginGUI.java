@@ -4,10 +4,10 @@
  */
 package usermanagement;
 
-import all.*;
-import gui.AdminGUI;
-import gui.HallgatoGUI;
-import gui.TanarGUI;
+import coursemanagement.*;
+import maingui.AdminGUI;
+import maingui.HallgatoGUI;
+import maingui.TanarGUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +20,8 @@ public class LoginGUI extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registrationButton;
+    private JButton forgottenPaswordButton;
+    public static String loggedInUser;
 
     public LoginGUI() {
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
@@ -38,16 +40,19 @@ public class LoginGUI extends JFrame {
                 switch (verifyLogin(usernameTextField.getText(), password)) {
                     case "admin":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Admin", JOptionPane.PLAIN_MESSAGE);
+                        loggedInUser = usernameTextField.getText();
                         AdminGUI adminGUI = new AdminGUI();
                         adminGUI.AdminPage();
                         break;
-                    case "tanar":
+                    case "teacher":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Tanar", JOptionPane.PLAIN_MESSAGE);
+                        loggedInUser = usernameTextField.getText();
                         TanarGUI tanarGUI = new TanarGUI();
                         tanarGUI.TanarPage();
                         break;
-                    case "hallgato":
+                    case "student":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Hallgato", JOptionPane.PLAIN_MESSAGE);
+                        loggedInUser = usernameTextField.getText();
                         HallgatoGUI hallgatoGUI = new HallgatoGUI();
                         hallgatoGUI.HallgatoPage();
                         break;
@@ -67,6 +72,13 @@ public class LoginGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 RegistrationGUI newRegistration = new RegistrationGUI();
                 newRegistration.setVisible(true);
+            }
+        });
+        forgottenPaswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NewPasswordGUI newPasswordGUI = new NewPasswordGUI();
+                newPasswordGUI.setVisible(true);
             }
         });
     }

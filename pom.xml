@@ -48,7 +48,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
+                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>
                                 usermanagement.LoginGUI
                             </mainClass>
@@ -95,6 +95,28 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
+        </dependency>
+
     </dependencies>
 
 

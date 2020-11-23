@@ -7,10 +7,10 @@ import javax.persistence.*;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "felhasznalok")
+@Table(name = "user")
 public class Users {
 
-    private String fullName;
+    private String full_name;
     private String email;
     private String username;
     private String password;
@@ -21,7 +21,6 @@ public class Users {
     }
 
     @Id
-    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -38,13 +37,12 @@ public class Users {
         this.password = password;
     }
 
-    @Column(name = "teljes_nev")
-    public String getFullName() {
-        return fullName;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public String getEmail() {
@@ -55,7 +53,6 @@ public class Users {
         this.email = email;
     }
 
-    @Column(name = "szerepkor")
     public String getRole() {
         return role;
     }

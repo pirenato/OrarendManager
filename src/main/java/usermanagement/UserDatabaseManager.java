@@ -4,7 +4,7 @@
 
 package usermanagement;
 
-import all.HibernateUtil;
+import coursemanagement.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,6 +28,15 @@ public class UserDatabaseManager {
         session.close();
     }
 
+    public static Users read(String username) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Users tempUser = (Users) session.get(Users.class, username);
+        session.close();
+
+        return tempUser;
+    }
+
     /**
      * Felhasznalo adatainak modositasa az adatbazisban
      * @param username a felhasznalonev mindenkepp egyedi, ezert ez az elsodleges kulcs, ez alapjan talalja meg az adatbazisban a felhasznalot
@@ -43,7 +52,7 @@ public class UserDatabaseManager {
 
             switch (column) {
                 case 0:
-                    user.setFullName(newData);
+                    user.setFull_name(newData);
                 case 1:
                     //felhasznalonevet nem lehet megvaltoztatni
                     break;
@@ -52,6 +61,10 @@ public class UserDatabaseManager {
                     break;
                 case 3:
                     user.setRole(newData);
+                    break;
+                case 4:
+                    user.setPassword(newData);
+                    break;
             }
 
             session.update(user);
