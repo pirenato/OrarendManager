@@ -37,6 +37,7 @@ public class AddCourseGUI extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setTitle("Új óra létrehozása");
 
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
 
@@ -92,7 +93,7 @@ public class AddCourseGUI extends JDialog {
             }
         });
 
-        setMinimumSize(new Dimension(900,400));
+        setMinimumSize(new Dimension(500,400));
         pack();
         setVisible(true);
     }

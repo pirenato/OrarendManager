@@ -5,14 +5,14 @@
 package maingui;
 
 import coursemanagement.*;
-import usermanagement.ChangePassword;
+import usermanagement.ChangePasswordGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class TanarGUI {
+public class TeacherGUI {
     private JPanel panel;
     private JButton newCourseButton;
     private JButton listCoursesButton;
@@ -28,7 +28,8 @@ public class TanarGUI {
     private CourseController courseController;
 
 
-    public TanarGUI() {
+    public TeacherGUI() {
+
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
         courseList = courseDatabaseManager.loadAllData(); //az adatbazisbol az osszes targy beolvasasa
 
@@ -147,16 +148,17 @@ public class TanarGUI {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangePassword changePassword = new ChangePassword();
-                changePassword.setVisible(true);
+                ChangePasswordGUI changePasswordGUI = new ChangePasswordGUI();
+                changePasswordGUI.setVisible(true);
             }
         });
     }
 
     public void TanarPage() {
         JFrame frame = new JFrame("GUI");
-        frame.setContentPane(new TanarGUI().panel);
+        frame.setContentPane(new TeacherGUI().panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Tanári felület");
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

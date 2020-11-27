@@ -11,8 +11,8 @@ import static usermanagement.UserController.*;
 
 public class RegistrationGUI extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton registrationButton;
+    private JButton backButton;
     private JTextField fullnameTextField;
     private JTextField emailTextField;
     private JTextField usernameTextField;
@@ -21,20 +21,21 @@ public class RegistrationGUI extends JDialog {
     public RegistrationGUI() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(registrationButton);
+        setTitle("Regisztráció");
 
         /**
          * A gombra kattintva a felhasznalo altal beirt adatok alapjan letrehoz egy uj felhasznalot
          * az adatbazisban
          */
-        buttonOK.addActionListener(new ActionListener() {
+        registrationButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                registration(fullnameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), passwordTextField.getText());
+                registration(fullnameTextField.getText(), emailTextField.getText(), usernameTextField.getText(), get_SHA512(passwordTextField.getText()));
                 JOptionPane.showMessageDialog(null, "Sikeres regisztracio", "Regisztralas", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -55,7 +56,7 @@ public class RegistrationGUI extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setMinimumSize(new Dimension(500,300));
+        setMinimumSize(new Dimension(280,170));
         pack();
     }
 

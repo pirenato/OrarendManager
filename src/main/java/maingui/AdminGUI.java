@@ -63,7 +63,7 @@ public class AdminGUI extends JFrame {
                     filePath = inputFile.toString();
                     List<String> orarendDoc = null; //
                     try {
-                        orarendDoc = CourseController.docToArrayList(CourseController.readDoc(filePath)); //a fajlbol elkesziti a String-eket tartalmazo ArrayList-et
+                        orarendDoc = CourseController.docToArrayList(CourseController.readDocFile(filePath)); //a fajlbol elkesziti a String-eket tartalmazo ArrayList-et
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -178,8 +178,8 @@ public class AdminGUI extends JFrame {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangePassword changePassword = new ChangePassword();
-                changePassword.setVisible(true);
+                ChangePasswordGUI changePasswordGUI = new ChangePasswordGUI();
+                changePasswordGUI.setVisible(true);
             }
         });
     }

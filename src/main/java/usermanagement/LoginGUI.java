@@ -6,8 +6,9 @@ package usermanagement;
 
 import coursemanagement.*;
 import maingui.AdminGUI;
-import maingui.HallgatoGUI;
-import maingui.TanarGUI;
+import maingui.StudentGUI;
+import maingui.TeacherGUI;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,9 +24,12 @@ public class LoginGUI extends JFrame {
     private JButton forgottenPaswordButton;
     public static String loggedInUser;
 
+
     public LoginGUI() {
+        System.out.println(System.getProperty("java.class.path"));
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
         HibernateUtil.setup();
+        UserDatabaseManager.initializeIfTableNotExists();
 
         /**
          * A bejelentkezes gombra kattintva az ActionListener a verifyLogin metodust hivja meg.
@@ -36,7 +40,8 @@ public class LoginGUI extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String password = String.valueOf(passwordField.getPassword());
+                String password = get_SHA512(String.valueOf(passwordField.getPassword()));
+
                 switch (verifyLogin(usernameTextField.getText(), password)) {
                     case "admin":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Admin", JOptionPane.PLAIN_MESSAGE);
@@ -47,14 +52,14 @@ public class LoginGUI extends JFrame {
                     case "teacher":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Tanar", JOptionPane.PLAIN_MESSAGE);
                         loggedInUser = usernameTextField.getText();
-                        TanarGUI tanarGUI = new TanarGUI();
-                        tanarGUI.TanarPage();
+                        TeacherGUI teacherGUI = new TeacherGUI();
+                        teacherGUI.TanarPage();
                         break;
                     case "student":
                         JOptionPane.showMessageDialog(null, "Sikeres bejelentkezes!\n", "Hallgato", JOptionPane.PLAIN_MESSAGE);
                         loggedInUser = usernameTextField.getText();
-                        HallgatoGUI hallgatoGUI = new HallgatoGUI();
-                        hallgatoGUI.HallgatoPage();
+                        StudentGUI studentGUI = new StudentGUI();
+                        studentGUI.HallgatoPage();
                         break;
                     default:
                         JOptionPane.showMessageDialog(null, "Sikertelen bejelentkezes!\n", "Login", JOptionPane.ERROR_MESSAGE);
@@ -90,5 +95,7 @@ public class LoginGUI extends JFrame {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+
     }
 }

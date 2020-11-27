@@ -1,14 +1,10 @@
 package usermanagement;
 
-import usermanagement.LoginGUI;
-import usermanagement.UserDatabaseManager;
-import usermanagement.Users;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ChangePassword extends JDialog {
+public class ChangePasswordGUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -16,10 +12,11 @@ public class ChangePassword extends JDialog {
     private JTextField newPasswordTextField;
     private JTextField confirmNewPasswordTextField;
 
-    public ChangePassword() {
+    public ChangePasswordGUI() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setTitle("Jelszó megváltoztatása");
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,17 +52,10 @@ public class ChangePassword extends JDialog {
     }
 
     private void onOK() {
-        Users currentUser = UserDatabaseManager.read(LoginGUI.loggedInUser);
-        System.out.println("Felhasznalo: " + currentUser.getUsername() + ", jelszo: " + currentUser.getPassword());
-
-        if (currentUser.getPassword().equals(oldPasswordTextFIeld.getText())) {
-            if (newPasswordTextField.getText().equals(confirmNewPasswordTextField.getText())) {
-                UserDatabaseManager.update(currentUser.getUsername(), newPasswordTextField.getText(), 4);
-                JOptionPane.showMessageDialog(null, "A jelszo sikeresen megvaltoztatva!", "Sikeres jelszo valtoztatas", JOptionPane.INFORMATION_MESSAGE);
-            } else
-                JOptionPane.showMessageDialog(null, "A beirt uj jelszavak nem egyeznek!", "Sikertelen jelszo valtoztatas", JOptionPane.ERROR_MESSAGE);
-        } else
-            JOptionPane.showMessageDialog(null, "A beirt regi jelszo teves", "Sikertelen jelszo valtoztatas", JOptionPane.ERROR_MESSAGE);
+        String oldPassword = UserController.get_SHA512(oldPasswordTextFIeld.getText());
+        String newPassword = UserController.get_SHA512(newPasswordTextField.getText());
+        String newPasswordConfirmation = UserController.get_SHA512(confirmNewPasswordTextField.getText());
+        UserController.changePassword(oldPassword, newPassword, newPasswordConfirmation);
     }
 
     private void onCancel() {

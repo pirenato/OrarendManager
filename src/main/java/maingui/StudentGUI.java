@@ -5,14 +5,14 @@
 package maingui;
 
 import coursemanagement.*;
-import usermanagement.ChangePassword;
+import usermanagement.ChangePasswordGUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class HallgatoGUI {
+public class StudentGUI {
     private JPanel panel;
     private JButton listCoursesButton;
     private JTextField generateByTankorTextField;
@@ -24,7 +24,7 @@ public class HallgatoGUI {
     private List<Course> courseList;
 
 
-    public HallgatoGUI() {
+    public StudentGUI() {
         CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
 
         //kereses az orakban
@@ -75,15 +75,15 @@ public class HallgatoGUI {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangePassword changePassword = new ChangePassword();
-                changePassword.setVisible(true);
+                ChangePasswordGUI changePasswordGUI = new ChangePasswordGUI();
+                changePasswordGUI.setVisible(true);
             }
         });
     }
 
     public void HallgatoPage() {
-        JFrame frame = new JFrame("GUI");
-        frame.setContentPane(new HallgatoGUI().panel);
+        JFrame frame = new JFrame("Hallgatói felület");
+        frame.setContentPane(new StudentGUI().panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);

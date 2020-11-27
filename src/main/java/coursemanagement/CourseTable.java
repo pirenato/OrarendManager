@@ -5,10 +5,6 @@
 
 package coursemanagement;
 
-
-import coursemanagement.Course;
-import coursemanagement.CourseDatabaseManager;
-
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -32,12 +28,15 @@ public class CourseTable extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setTitle("Tárgyak listázása");
 
         //tablazat fejlecenek beallitasa
         DefaultTableModel model = new DefaultTableModel(new Object[]{"ID", "Felev", "Kar", "Szki", "Ti", "Targynev", "Tanszek", "Eloado", "Csoport", "Fo", "Kezdes", "Hossz", "Terem", "Nap", "Tipus", "Torles"}, 0) {
             @Override
             //a torles oszlopban megjeleno JCheckBox beallitasa
             public Class getColumnClass(int columnIndex) {
+                if (columnIndex == 0 || columnIndex == 1 || columnIndex == 9 || columnIndex == 10 || columnIndex == 11)
+                    return Integer.class;
                 if (columnIndex == 15)
                     return Boolean.class;
                 return String.class;

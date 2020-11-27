@@ -28,7 +28,7 @@ public class TimeTable extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
 
         /**
-         * A sok egy idoben levo ora miatt nagyon "szeles" lenne a tablazat, ezert az orarendet kulon napokra kell feloszatni
+         * A sok egyidoben levo ora miatt nagyon "szeles" lenne a tablazat, ezert az orarendet kulon napokra kell feloszatni
          */
         List<Course> hetfo = new ArrayList<Course>();
         List<Course> kedd = new ArrayList<Course>();
@@ -123,7 +123,7 @@ public class TimeTable extends JDialog {
             }
         });
 
-        setMinimumSize(new Dimension(1000, 400));
+        setMinimumSize(new Dimension(600, 300));
         pack();
     }
 
@@ -168,69 +168,82 @@ public class TimeTable extends JDialog {
 
         //a tablazat feltoltese az adott nap targyaival
         for (int i = 0; i < dayList.size(); i++) {
-            int row;
-            int column = 1; //a 0. oszlop az idopont, mindig 1-rol kell indulnia
+            int rowIndex;
+            int columnIndex = 1; //a 0. oszlop az idopont, mindig 1-rol kell indulnia
 
             //sor beallitasa az ora kezdese alapjan, az elso ora 8-kor kezdodik, ekkor a sort 0-ra kell beallitani
             switch (dayList.get(i).getKezdes()) {
                 case 8:
-                    row = 0;
+                    rowIndex = 0;
                     break;
                 case 9:
-                    row = 1;
+                    rowIndex = 1;
                     break;
                 case 10:
-                    row = 2;
+                    rowIndex = 2;
                     break;
                 case 11:
-                    row = 3;
+                    rowIndex = 3;
                     break;
                 case 12:
-                    row = 4;
+                    rowIndex = 4;
                     break;
                 case 13:
-                    row = 5;
+                    rowIndex = 5;
                     break;
                 case 14:
-                    row = 6;
+                    rowIndex = 6;
                     break;
                 case 15:
-                    row = 7;
+                    rowIndex = 7;
                     break;
                 case 16:
-                    row = 8;
+                    rowIndex = 8;
                     break;
                 case 17:
-                    row = 9;
+                    rowIndex = 9;
                     break;
                 case 18:
-                    row = 10;
+                    rowIndex = 10;
                     break;
                 default:
                     continue;
                     //throw new IllegalStateException("Unexpected value: " + list.get(i).getKezdes());
             }
 
-            Object cellValue = model.getValueAt(row, column); //valtozo a cella uressegenek vizsgalatara
+            Object cellValue = model.getValueAt(rowIndex, columnIndex); //valtozo a cella uressegenek vizsgalatara
             if(cellValue == null) { //ha a cella ures a tantargy neve beirasra kerul a cellaba
-                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column);
+                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), rowIndex, columnIndex);
             } else {
                 int columnCount = model.getColumnCount() -1; //a tablazat oszlopainak szama az adott iteracioban
-                if (column == columnCount) { //annak vizsgalata, hogy az iteracioban az aktualis oszlop az utolso-e a tablazatban
+
+                if (columnIndex == columnCount) { //annak vizsgalata, hogy az iteracioban az aktualis oszlop az utolso-e a tablazatban
                     model.addColumn(dayColumn); //ha az utolso oszlop volt es nem ures az adott cella, akkor uj oszlopot kell hozzaadni
-                    column++;
-                    model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //a megnovelt column valtozoval mar az uj oszlopba szurja be az uj targyat
+                    columnIndex++;
+                    model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), rowIndex, columnIndex); //a megnovelt columnIndex valtozoval mar az uj oszlopba szurja be az uj targyat
+                    if(dayList.get(i).getHossz() == 2)
+                        model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
+                    if(dayList.get(i).getHossz() == 3)
+                        model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
                 } else { //ha az iteracioban szereplo oszlop nem az utolso oszlop a tablazatban
-                    while (column < columnCount) { //vegig kell mennie a a tablazat oszlopain, es minden oszlopban megvizsgalni van-e ures cella a megfelelo sorban
-                        column++;
-                        cellValue = model.getValueAt(row, column);
+                    while (columnIndex < columnCount) { //vegig kell mennie a a tablazat oszlopain, es minden oszlopban megvizsgalni van-e ures cella a megfelelo sorban
+                        columnIndex++;
+                        cellValue = model.getValueAt(rowIndex, columnIndex);
                         if (cellValue == null) {
-                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //ha volt ures cella a targy beszurhato
+                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), rowIndex, columnIndex); //ha volt ures cella a targy beszurhato
+                            if(dayList.get(i).getHossz() == 2)
+                                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
+                            if(dayList.get(i).getHossz() == 3)
+                                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
                             break;
-                        } else if (column == columnCount && cellValue != null) { //ha az osszes oszlopon atment a ciklus es nem talalt ures oszlopot
+                        } else if (columnIndex == columnCount && cellValue != null) { //ha az osszes oszlopon atment a ciklus es nem talalt ures oszlopot
                             model.addColumn(dayColumn);
-                            column++;
-                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), row, column); //targy beszurasa az ujonnan hozzaadott oszlopba
+                            columnIndex++;
+                            model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), rowIndex, columnIndex); //targy beszurasa az ujonnan hozzaadott oszlopba
+                            if(dayList.get(i).getHossz() == 2)
+                                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
+                            if(dayList.get(i).getHossz() == 3)
+                                model.setValueAt(dayList.get(i).getId() + ", " + dayList.get(i).getTantargy(), ++rowIndex, columnIndex);
                         }
                     }
                 }

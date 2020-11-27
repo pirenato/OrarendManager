@@ -1,35 +1,29 @@
 package usermanagement;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import usermanagement.UserController;
-import usermanagement.UserDatabaseManager;
-import usermanagement.Users;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static usermanagement.SendEmail.send;
-
 public class NewPasswordGUI extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton okButton;
+    private JButton backButton;
     private JTextField emailTextField;
     private JTextField usernameTextField;
 
     public NewPasswordGUI() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(okButton);
+        setTitle("Elfelejtett jelszó");
 
-        buttonOK.addActionListener(new ActionListener() {
+        okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -50,7 +44,7 @@ public class NewPasswordGUI extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setMinimumSize(new Dimension(300,150));
+        setMinimumSize(new Dimension(250,150));
         pack();
     }
 

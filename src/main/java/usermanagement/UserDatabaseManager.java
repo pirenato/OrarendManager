@@ -4,7 +4,6 @@
 
 package usermanagement;
 
-import coursemanagement.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,7 +17,7 @@ public class UserDatabaseManager {
      * Uj felhasznalo letrehozasa az adatbazisban
      * @param user
      */
-    protected void create(Users user) {
+    protected static void create(Users user) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
@@ -28,12 +27,45 @@ public class UserDatabaseManager {
         session.close();
     }
 
+    /**
+     * Ha a
+     */
+    public static void initializeIfTableNotExists() {
+        Users user = new Users();
+
+        if (read("admin") == null) {
+
+            user.setFull_name("Admin Admin");
+            user.setEmail("admin@timetable.com");
+            user.setUsername("admin");
+            user.setPassword("adminpw");
+            user.setRole("admin");
+            create(user);
+        }
+
+        if (read("teacher") == null) {
+            user.setFull_name("Test Teacher");
+            user.setEmail("email@timetable.com");
+            user.setUsername("teacher");
+            user.setPassword("teacherpw");
+            user.setRole("teacher");
+            create(user);
+        }
+
+        if (read("student") == null) {
+            user.setFull_name("Test Student");
+            user.setEmail("student@timetable.com");
+            user.setUsername("student");
+            user.setPassword("studentpw");
+            user.setRole("student");
+            create(user);
+        }
+    }
+
     public static Users read(String username) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
         Users tempUser = (Users) session.get(Users.class, username);
         session.close();
-
         return tempUser;
     }
 

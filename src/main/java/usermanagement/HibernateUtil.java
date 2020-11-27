@@ -2,11 +2,13 @@
  * Osztaly a Hibernate konfiguralasahoz / kezelesehez
  */
 
-package coursemanagement;
+package usermanagement;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+@SuppressWarnings("all")
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
@@ -20,8 +22,9 @@ public class HibernateUtil {
 
         try {
             sessionFactory = config.buildSessionFactory();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
     }
 

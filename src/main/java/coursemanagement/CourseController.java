@@ -18,7 +18,7 @@ public class CourseController {
      * @param fileName a kivalasztott elozetes orarend fajl
      * @return egy WordExtractor objektum, ami az egesz beolvasott doc fajlbol kinyert szöveget tartalmazza
      */
-    public static WordExtractor readDoc(String fileName) {
+    public static WordExtractor readDocFile(String fileName) {
         String filePath = fileName;
         FileInputStream fileInputStream;
 

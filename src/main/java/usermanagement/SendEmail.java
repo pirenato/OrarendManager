@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class SendEmail {
-    public static void send(String from,String password,String to,String sub,String msg){
+    public static void send(String emailFrom,String password,String emailTo,String subject,String message){
         //Properties objektum beallitasa
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -19,19 +19,18 @@ public class SendEmail {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from,password);
+                        return new PasswordAuthentication(emailFrom,password);
                     }
                 });
 
         //uzenet letrehozasa
         try {
-            MimeMessage message = new MimeMessage(session);
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject(sub);
-            message.setText(msg);
+            MimeMessage mimeMessage = new MimeMessage(session);
+            mimeMessage.addRecipient(Message.RecipientType.TO,new InternetAddress(emailTo));
+            mimeMessage.setSubject(subject);
+            mimeMessage.setText(message);
             //uzenet kuldese
-            Transport.send(message);
-            System.out.println("Az uzenet sikeresen elkuldve");
+            Transport.send(mimeMessage);
         } catch (MessagingException e) {throw new RuntimeException(e);}
 
     }

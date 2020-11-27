@@ -4,8 +4,6 @@
  */
 package usermanagement;
 
-import usermanagement.UserDatabaseManager;
-import usermanagement.Users;
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -18,18 +16,18 @@ import java.util.List;
 
 public class UserTable extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton backButton;
     private JPanel tablePanel;
     private JTable table;
 
     public UserTable(List<Users> userlist) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(backButton);
+        setTitle("Felhasználók");
 
         //JTable fejlecek hozzaadasa
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Teljes név", "Felhasználónév", "Email", "Típus"},0);
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Teljes név", "Felhasználónév", "Email", "Szerepkör"},0);
         table.setAutoCreateRowSorter(true);
         table.setFillsViewportHeight(true);
         table.setPreferredScrollableViewportSize(new Dimension(550, 200));
@@ -44,13 +42,7 @@ public class UserTable extends JDialog {
         //a szerepkor oszlophoz JComboBox beallitasa
         setupRoleColumn(table, table.getColumnModel().getColumn(3));
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
+        backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -71,7 +63,6 @@ public class UserTable extends JDialog {
 
                     UserDatabaseManager.update(username, updatedCellData, column); //a meghivott metodus modositja az adatbazisban a rekordot
                 }
-
             }
         });
 
@@ -95,11 +86,6 @@ public class UserTable extends JDialog {
 
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
     private void onCancel() {
         // add your code here if necessary
         dispose();
@@ -117,13 +103,5 @@ public class UserTable extends JDialog {
         comboBox.addItem("tanar");
         comboBox.addItem("hallgato");
         roleColumn.setCellEditor(new DefaultCellEditor(comboBox));
-
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setToolTipText("szerepkor");
-        roleColumn.setCellRenderer(renderer);
-    }
-
-    private Class getColumnClass(int c) {
-        return table.getValueAt(0, c).getClass();
     }
 }
