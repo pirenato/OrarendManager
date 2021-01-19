@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.persistence.Table;
 
 @Entity
-//@Table(name = "oratabla")
 public class Course {
 
     //adattagok amik az elozetes orarendben szereplo oszlopoknak felelnek meg
@@ -30,6 +29,23 @@ public class Course {
 
     public Course() {
 
+    }
+
+    public Course(int felev, String kar, String szki, String ti, String tantargy, String tanszek, String eloado, String csoport, int fo, int kezdes, int hossz, String terem, String nap, String tipus) {
+        this.felev = felev;
+        this.kar = kar;
+        this.szki = szki;
+        this.ti = ti;
+        this.tantargy = tantargy;
+        this.tanszek = tanszek;
+        this.eloado = eloado;
+        this.csoport = csoport;
+        this.fo = fo;
+        this.kezdes = kezdes;
+        this.hossz = hossz;
+        this.terem = terem;
+        this.nap = nap;
+        this.tipus = tipus;
     }
 
     @Id

@@ -7,11 +7,14 @@ package usermanagement;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @SuppressWarnings("ALL")
 public class UserDatabaseManager {
+
+    private static final String SALT = "SZAKDOLGOZAT";
 
     /**
      * Uj felhasznalo letrehozasa az adatbazisban
@@ -28,37 +31,41 @@ public class UserDatabaseManager {
     }
 
     /**
-     * Ha a
+     * Adatbazis feltoltese teszt felhasznalokkal, ha meg nem leteznek az adatbazisban
      */
     public static void initializeIfTableNotExists() {
         Users user = new Users();
 
-        if (read("admin") == null) {
+        try {
+            if (read("admin") == null) {
 
-            user.setFull_name("Admin Admin");
-            user.setEmail("admin@timetable.com");
-            user.setUsername("admin");
-            user.setPassword("adminpw");
-            user.setRole("admin");
-            create(user);
-        }
+                user.setFull_name("Admin Admin");
+                user.setEmail("admin@timetable.com");
+                user.setUsername("admin");
+                user.setPassword(get_SHA512("adminpw"));
+                user.setRole("admin");
+                create(user);
+            }
 
-        if (read("teacher") == null) {
-            user.setFull_name("Test Teacher");
-            user.setEmail("email@timetable.com");
-            user.setUsername("teacher");
-            user.setPassword("teacherpw");
-            user.setRole("teacher");
-            create(user);
-        }
+            if (read("teacher") == null) {
+                user.setFull_name("Test Teacher");
+                user.setEmail("email@timetable.com");
+                user.setUsername("teacher");
+                user.setPassword(get_SHA512("teacherpw"));
+                user.setRole("teacher");
+                create(user);
+            }
 
-        if (read("student") == null) {
-            user.setFull_name("Test Student");
-            user.setEmail("student@timetable.com");
-            user.setUsername("student");
-            user.setPassword("studentpw");
-            user.setRole("student");
-            create(user);
+            if (read("student") == null) {
+                user.setFull_name("Test Student");
+                user.setEmail("student@timetable.com");
+                user.setUsername("student");
+                user.setPassword(get_SHA512("studentpw"));
+                user.setRole("student");
+                create(user);
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
         }
     }
 
@@ -106,6 +113,28 @@ public class UserDatabaseManager {
             if (tx != null) tx.rollback();
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Jelszo hash + salt SHA-512-vel
+     * @param passwordToHash A plaintext jelszo
+     * @return a hashelt jelszo
+     */
+    public static String get_SHA512(String passwordToHash) {
+        String hashedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(SALT.getBytes());
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i < bytes.length; i++)  {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return hashedPassword;
     }
 
     /**

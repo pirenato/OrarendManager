@@ -9,11 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import usermanagement.HibernateUtil;
-
 import javax.swing.*;
 import java.util.List;
 
-@SuppressWarnings("ALL")
 public class CourseDatabaseManager {
 
     /**
@@ -22,9 +20,8 @@ public class CourseDatabaseManager {
      */
     public static void initializeCourseTable(List<Course> courseList) {
         try {
-            CourseDatabaseManager courseDatabaseManager = new CourseDatabaseManager();
             for (Course c : courseList) {
-                courseDatabaseManager.create(c);
+                create(c);
             }
         } catch (NullPointerException e1) {
             e1.printStackTrace();
@@ -35,14 +32,33 @@ public class CourseDatabaseManager {
      * Uj ora irasa az adatbazisba
      * @param c
      */
-    public void create(Course c) {
+    public static void create(Course c) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        Transaction transaction = null;
 
-        session.save(c);
-
-        session.getTransaction().commit();
+        try {
+            transaction = session.beginTransaction();
+            session.save(c);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
         session.close();
+    }
+
+    /**
+     * Adatbazisbol egy rekord beolvasasa az id alapjan
+     * @param id a targy elsodleges kulcsa
+     * @return ha letezik az id visszaadja a Course objektumot
+     */
+    protected Course read(long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Course course = session.get(Course.class, id);
+        session.close();
+        return course;
     }
 
     /**
@@ -117,19 +133,6 @@ public class CourseDatabaseManager {
     }
 
     /**
-     * Adatbazisbol egy rekord beolvasasa az id alapjan
-     * @param id a targy elsodleges kulcsa
-     * @return ha letezik az id visszaadja a Course objektumot
-    */
-    protected Course read(long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-
-        Course course = session.get(Course.class, id);
-        session.close();
-        return course;
-    }
-
-    /**
      * Targy torlese adatbazisbol
      * @param id a torlendo targy elsodleges kulcsa
      */
@@ -151,10 +154,22 @@ public class CourseDatabaseManager {
      * @return Course objektumokbol allo lista
      */
     public List<Course> loadAllData() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Course course = new Course();
+        Transaction transaction = null;
+        List<Course> courses = null;
 
-        return session.createCriteria(Course.class).list();
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            courses = session.createQuery("from Course", Course.class).list();
+            session.close();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return courses;
     }
 
 

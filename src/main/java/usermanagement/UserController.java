@@ -7,19 +7,11 @@ package usermanagement;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
 import javax.swing.*;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import static usermanagement.SendEmail.send;
 
 
 public class UserController {
-    private static final String SALT = "SZAKDOLGOZAT";
-
-
     /**
      * Bejelentkezeskor ellenorzi, hogy az adatbazisban szerepel-e a beirt felhasznalonev es jelszo.
      *
@@ -71,12 +63,13 @@ public class UserController {
 
     public static void forgottenPassword(String email, String username) {
         String newPassword = RandomStringUtils.random(12, true, true);
+        String securePassword = UserDatabaseManager.get_SHA512(newPassword);
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             Users tempUser = UserDatabaseManager.read(username);
             if (tempUser.getEmail().equals(email)) {
-                send("prenomail@gmail.com", "fylwovkpiaekxnza", email, "Jelszo visszaallitas", "Az orarend alkalmazashoz uj jelszo lett generalva: " + newPassword);
-                UserDatabaseManager.update(username, newPassword, 4);
+                send("orarendprojekt@gmail.com", "Szakdolgozat00", email, "Jelszo visszaallitas", "Az orarend alkalmazashoz uj jelszo lett generalva: " + newPassword);
+                UserDatabaseManager.update(username, securePassword, 4);
                 JOptionPane.showMessageDialog(null, "Az uj jelszo elkuldve a megadott email cimre!", "Uj jelszo", JOptionPane.INFORMATION_MESSAGE);
             } else
                 JOptionPane.showMessageDialog(null, "A megadott felhasznalonevhez nem ez az email cim tartozik, addj meg egy ujat!", "Rossz username/email", JOptionPane.ERROR_MESSAGE);
@@ -100,29 +93,4 @@ public class UserController {
             JOptionPane.showMessageDialog(null, "A beirt regi jelszo teves", "Sikertelen jelszo valtoztatas", JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Jelszo hash + salt-olasa SHA-512-vel
-     * @param passwordToHash A plaintext jelszo
-     * @return a hashelt jelszo
-     * Forras: https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
-     */
-    public static String get_SHA512(String passwordToHash) {
-        String hashedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(SALT.getBytes());
-            byte[] bytes = md.digest(passwordToHash.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            hashedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return hashedPassword;
-    }
 }
